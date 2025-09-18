@@ -89,7 +89,7 @@ def log_back(x: float, d: float) -> float:
 
 def inv(x: float) -> float:
     "$f(x) = 1/x$"
-    return 1 / (x + EPS)
+    return 1 / (x)
 
 
 def inv_back(x: float, d: float) -> float:
@@ -99,7 +99,6 @@ def inv_back(x: float, d: float) -> float:
 
 def relu_back(x: float, d: float) -> float:
     r"If $f = relu$ compute $d \times f'(x)$"
-    # TODO: Implement for Task 0.1.
     return d if x > 0 else 0.0
 
 
