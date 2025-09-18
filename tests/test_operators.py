@@ -133,6 +133,7 @@ def test_symmetric(x: float, y: float) -> None:
 
 
 @pytest.mark.task0_2
+@given(small_floats, small_floats, small_floats)
 def test_distribute(x: float, y: float, z:float ) -> None:
     r"""Write a test that ensures that your operators distribute, i.e.
     :math:`z \times (x + y) = z \times x + z \times y`
@@ -141,6 +142,7 @@ def test_distribute(x: float, y: float, z:float ) -> None:
 
 
 @pytest.mark.task0_2
+@given(small_floats)
 def test_other(a: float) -> None:
     """Write a test that ensures some other property holds for your functions."""
     """Test the multiplicative inverse property: a * (1/a) = 1"""
