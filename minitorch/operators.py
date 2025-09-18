@@ -106,3 +106,85 @@ def relu_back(x: float, d: float) -> float:
 # ## Task 0.3
 
 # Small practice library of elementary higher-order functions.
+
+
+def map(fn: Callable[[float], float]) -> Callable[[Iterable[float]], Iterable[float]]:
+    """
+    Higher-order map.
+
+    See https://en.wikipedia.org/wiki/Map_(higher-order_function)
+
+    Args:
+        fn: Function from one value to one value.
+
+    Returns:
+         A function that takes a list, applies `fn` to each element, and returns a
+         new list
+    """
+    def mapper(ls: Iterable[float]) -> Iterable[float]:
+        return [fn(x) for x in ls]
+    return mapper
+
+
+def negList(ls: Iterable[float]) -> Iterable[float]:
+    "Use `map` and `neg` to negate each element in `ls`"
+    return map(neg)(ls)
+
+
+def zipWith(
+    fn: Callable[[float, float], float]
+) -> Callable[[Iterable[float], Iterable[float]], Iterable[float]]:
+    """
+    Higher-order zipwith (or map2).
+
+    See https://en.wikipedia.org/wiki/Map_(higher-order_function)
+
+    Args:
+        fn: combine two values
+
+    Returns:
+         Function that takes two equally sized lists `ls1` and `ls2`, produce a new list by
+         applying fn(x, y) on each pair of elements.
+
+    """
+    def zipper(ls1: Iterable[float], ls2: Iterable[float]) -> Iterable[float]:
+        return [fn(x, y) for x, y in zip(ls1, ls2)]
+    return zipper
+
+def addLists(ls1: Iterable[float], ls2: Iterable[float]) -> Iterable[float]:
+    "Add the elements of `ls1` and `ls2` using `zipWith` and `add`"
+    return zipWith(add)(ls1, ls2)
+
+
+def reduce(
+    fn: Callable[[float, float], float], start: float
+) -> Callable[[Iterable[float]], float]:
+    r"""
+    Higher-order reduce.
+
+    Args:
+        fn: combine two values
+        start: start value $x_0$
+
+    Returns:
+         Function that takes a list `ls` of elements
+         $x_1 \ldots x_n$ and computes the reduction :math:`fn(x_3, fn(x_2,
+         fn(x_1, x_0)))`
+    """
+    def reducer(ls: Iterable[float]) -> float:
+        current_val = start
+        for x in ls:
+            current_val = fn(current_val, x)
+        return current_val
+    return reducer
+
+
+def sum(ls: Iterable[float]) -> float:
+    "Sum up a list using `reduce` and `add`."
+    return reduce(add, 0.0)(ls)
+
+
+def prod(ls: Iterable[float]) -> float:
+    "Product of a list using `reduce` and `mul`."
+    return reduce(mul, 1.0)(ls)
+
