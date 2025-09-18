@@ -99,7 +99,7 @@ def test_eq(a: float) -> None:
 
 
 def is_close(x: float, y: float, tol: float = 1e-5) -> bool:
-    """Checks is two numbers close"""
+    """Checks if two numbers are close"""
     return abs(x - y) < tol
 
 @pytest.mark.task0_2
@@ -115,8 +115,14 @@ def test_sigmoid(a: float) -> None:
     assert 0.0 <= s <= 1.0
     assert_close(1.0 - s, sigmoid(-a))
     assert_close(sigmoid(0.0), 0.5)
-    assert sigmoid(a + 1e-4) > s or is_close(s, 1.0)
-    assert sigmoid(a - 1e-4) < s or is_close(s, 0.0)
+    s_plus = sigmoid(a + 1e-4)
+    s_minus = sigmoid(a - 1e-4)
+    if 1e-5 < s < 1.0 - 1e-5:
+        assert s_plus > s
+        assert s_minus < s
+    else:
+        assert s_plus >= s
+        assert s_minus <= s
 
 
 
